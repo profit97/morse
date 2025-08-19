@@ -14,13 +14,13 @@ import (
 
 func HandleIndex(w http.ResponseWriter, r *http.Request) {
 	// Читаем содержимое файла index.html
-	file, err := os.Open("../index.html")
+	file, err := os.ReadFile("../index.html")
 	if err != nil {
 		log.Println("Ошибка при открытии файла:", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
-	defer file.Close()
+	/*defer file.Close()
 
 	// Читаем содержимое файла
 	data, err := io.ReadAll(file)
@@ -28,11 +28,11 @@ func HandleIndex(w http.ResponseWriter, r *http.Request) {
 		log.Println("Ошибка при чтении файла:", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
-	}
+	}*/
 
 	// Отправляем содержимое файла в ответ
 	w.Header().Set("Content-Type", "text/html")
-	w.Write(data)
+	w.Write(file)
 }
 
 func HandleUpload(w http.ResponseWriter, r *http.Request) {
@@ -42,7 +42,7 @@ func HandleUpload(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Парсим форму
-	err := r.ParseMultipartForm(0)
+	err := r.ParseMultipartForm(10 << 20)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
