@@ -13,26 +13,25 @@ import (
 )
 
 func HandleIndex(w http.ResponseWriter, r *http.Request) {
-	// Читаем содержимое файла index.html
-	file, err := os.ReadFile("C:/Users/ilkar/Dev/go1fl-6-sprint-final/index.html")
-	if err != nil {
-		log.Println("Ошибка при открытии файла:", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
+
+	possiblePaths := []string{
+		"index.html",
+		"../index.html",
 	}
-	/*defer file.Close()
 
-	// Читаем содержимое файла
-	data, err := io.ReadAll(file)
-	if err != nil {
-		log.Println("Ошибка при чтении файла:", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}*/
+	var data []byte
+	var err error
 
-	// Отправляем содержимое файла в ответ
+	for _, path := range possiblePaths {
+		data, err = os.ReadFile(path)
+		if err == nil {
+			log.Printf("Успешно загружен index.html из: %s", path)
+			break
+		}
+	}
+
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	w.Write(file)
+	w.Write(data)
 }
 
 func HandleUpload(w http.ResponseWriter, r *http.Request) {
