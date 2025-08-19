@@ -31,7 +31,7 @@ func HandleIndex(w http.ResponseWriter, r *http.Request) {
 	}*/
 
 	// Отправляем содержимое файла в ответ
-	w.Header().Set("Content-Type", "text/html")
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.Write(file)
 }
 
