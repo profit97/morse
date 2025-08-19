@@ -14,7 +14,7 @@ import (
 
 func HandleIndex(w http.ResponseWriter, r *http.Request) {
 	// Читаем содержимое файла index.html
-	file, err := os.ReadFile("../index.html")
+	file, err := os.ReadFile("C:/Users/ilkar/Dev/go1fl-6-sprint-final/index.html")
 	if err != nil {
 		log.Println("Ошибка при открытии файла:", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
